@@ -28,13 +28,6 @@ static char* file2_name;
  *
  * See `man getopt` for information on the getopt command.
  *
- * `optind` contains the first argument not consumed by getopt
- * so in an argument array ["progname", "-i", "file1", "file2"]
- * it would point to "file1". This way we can extract the two
- * file names. Also because of this, `argc-optind` is the number
- * of non-flag arguments. The function checks if this is exactly
- * 2 (two file names).
- *
  * @param argc Number of arguments
  * @param argv Array of arguments
  * @return EXIT_SUCCESS on success, EXIT_ERROR on failure
@@ -42,6 +35,10 @@ static char* file2_name;
 int parse_args(int argc, char* const argv[]) {
     ignore_case = false;
 
+//  `extern` means that the variable is linked from another part
+//  of the program (in this case the getopt library)
+//  This means getopt can change this variable, even though it is
+//  defined inside the function here.
     extern int optind;
 
     for(int c; (c=getopt(argc, argv, "i")) != -1;) {
@@ -54,11 +51,18 @@ int parse_args(int argc, char* const argv[]) {
                 return -1;
         }
     }
+
+//  `optind` contains the first argument not consumed by getopt
+//  so in an argument array ["progname", "-i", "file1", "file2"]
+//  it would point to "file1".
+//  This means that `argc-optind` is the number of non-flag arguments.
+//  The function checks if this is exactly 2 (two file names).
     if(argc-optind != 2) {
         errno = EINVAL;
         return -1;
     }
-    
+
+//  Using `optind` we can also find the two file-name arguments
     file1_name = argv[optind];
     file2_name = argv[optind+1];
     return 0;
