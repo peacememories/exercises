@@ -163,6 +163,19 @@ int compare_files(FILE* file_1, FILE* file_2) {
     return 0;
 }
 
+/**
+ * @brief Opens two files for comparison and calls compare_files
+ *
+ * Parses the command line arguments using `parse_args`, then opens
+ * the specified files for reading and passes them to `compare_files`,
+ * handling any errors in the process.
+ *
+ * See `man fopen`, `man errno`
+ *
+ * @param argc
+ * @param argv
+ * @return EXIT_SUCCESS if no errros occured, EXIT_FAILURE otherwise
+ */
 int main(int argc, char* const argv[]) {
     if(parse_args(argc, argv) == -1) {
         (void)fprintf(stderr, "Usage: %s [-i] file1 file2\n", argv[0]);
