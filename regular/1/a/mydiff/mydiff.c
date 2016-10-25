@@ -69,9 +69,22 @@ int parse_args(int argc, char* const argv[]) {
 }
 
 /**
- * @brief Reads two lines and compares them
+ * @brief Compares two lines, counting the differences.
  *
- * @param 
+ * Takes two strings and traverses them until the shorter
+ * string ends. Every time characters in the same position
+ * are different in the two strings, `differences` is incremented
+ *
+ * If ignore_case is set, character comparison first converts
+ * both characters to lowercase using `toLower`
+ *
+ * Errors: If any of the lines is longer than MAX_LINE_LENGTH
+ * errno is set to EMSGSIZE (Message size too large).
+ *
+ * @param line_1 String containing the first line.
+ * @param line_2 String containing the second line.
+ * @return Number of differences in the lines, or -1 if
+ * MAX_LINE_LENGTH is exceeded.
  */
 int compare_lines(const char* line_1, const char* line_2) {
     unsigned int differences = 0;
