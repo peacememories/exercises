@@ -75,7 +75,7 @@ int parse_args(int argc, char* const argv[]) {
  */
 int compare_lines(const char* line_1, const char* line_2) {
     unsigned int differences = 0;
-    for(unsigned int i = 0; i < MAX_LINE_LENGTH+1; i++) {
+    for(unsigned int i = 0; i <= MAX_LINE_LENGTH; i++) {
         if(*line_1 == '\n' || *line_2 == '\n') {
             return differences;
         }
