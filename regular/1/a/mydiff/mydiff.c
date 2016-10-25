@@ -179,7 +179,8 @@ int main(int argc, char* const argv[]) {
         return EXIT_FAILURE;
     }
     if(compare_files(file1, file2) == -1) {
-
+        print_error("Error comparing files");
+        return EXIT_FAILURE;
     };
     return EXIT_SUCCESS;
 }
