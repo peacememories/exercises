@@ -108,7 +108,30 @@ int compare_lines(const char* line_1, const char* line_2) {
     return -1;
 }
 
+/**
+ * @brief Reads two files, comparing them line by line.
+ *
+ * Takes two file handles and reads them both, feeding each
+ * pair of lines into `compare_lines`. As soon as one file is
+ * fully read, the comparison is stopped and additional lines
+ * in the other file ignored.
+ *
+ * Errors:
+ * Fails if
+ *  * either of the memory allocations (`malloc`) fails.
+ *  * there is an error reading from either file.
+ *  * any `compare_lines` call fails.
+ *
+ * See `man malloc`, `man feof`, `man fgets`
+ *
+ * @param file_1 File handle to the first file.
+ * @param file_2 File handle to the second file.
+ * @return 0 on success, -1 if an error occurs.
+ */
 int compare_files(FILE* file_1, FILE* file_2) {
+//  If there is an error allocating memory, the function returns,
+//  leaving errno untouched. This way other functions can check
+//  errno to see what went wrong.
     char* line_1 = malloc((MAX_LINE_LENGTH+2)*sizeof(char));
     if(line_1 == NULL) {
         return -1;
@@ -119,6 +142,8 @@ int compare_files(FILE* file_1, FILE* file_2) {
     }
 
     unsigned int line_no = 1;
+//  As soon as one file reached `EOF` (it is done being read)
+//  stop comparing the files.
     while(!feof(file_1) && !feof(file_1)) {
         if(fgets(line_1, MAX_LINE_LENGTH+1, file_1) == NULL) {
             return -1;
