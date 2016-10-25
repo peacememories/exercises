@@ -8,7 +8,7 @@
 
 #define MAX_LINE_LENGTH (100)
 #define EXIT_ERROR (-1)
-#define print_error(argstr, ...) do { (void)fprintf(stderr, "%s: " argstr ": %s\n", argv[0], __VA_ARGS__, strerror(errno)); } while(0)
+#define print_error(argstr, ...) do { (void)fprintf(stderr, "%s: " argstr ": %s\n", argv[0], ##__VA_ARGS__, strerror(errno)); } while(0)
 
 static bool ignore_case;
 static char* file1_name;
