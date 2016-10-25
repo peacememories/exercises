@@ -17,6 +17,24 @@ static char* file2_name;
 /**
  * @brief Parse arguments and set globals
  *
+ * Uses `getopt` to parse the command line arguments.
+ *
+ * Sets `ignore_case` if `-i` is part of the argument list.
+ * Sets `file1_name` and `file2_name`
+ *
+ * Errors: If unrecognized flags are entered or there is not
+ * exactly two file names supplied sets errno to EINVAL
+ * (Invalid Argument)
+ *
+ * See `man getopt` for information on the getopt command.
+ *
+ * `optind` contains the first argument not consumed by getopt
+ * so in an argument array ["progname", "-i", "file1", "file2"]
+ * it would point to "file1". This way we can extract the two
+ * file names. Also because of this, `argc-optind` is the number
+ * of non-flag arguments. The function checks if this is exactly
+ * 2 (two file names).
+ *
  * @param argc Number of arguments
  * @param argv Array of arguments
  * @return EXIT_SUCCESS on success, EXIT_ERROR on failure
